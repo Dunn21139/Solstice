@@ -35,7 +35,7 @@
 
 - (void)openSourceCode
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/CHANGE-ME/Solstice"] options:@{} completionHandler:nil];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/Dunn21139/Solstice"] options:@{} completionHandler:nil];
 }
 
 - (void)openDiscord

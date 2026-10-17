@@ -154,9 +154,9 @@ def main():
     ap.add_argument("--root", default=".")
     ap.add_argument("--brand", default="Solstice")
     ap.add_argument("--prefix", default="com.solstice.jb")
-    ap.add_argument("--repo-url", default="https://github.com/CHANGE-ME/Solstice")
-    ap.add_argument("--slug", default="CHANGE-ME/Solstice")
-    ap.add_argument("--site-url", default="https://example.com/")
+    ap.add_argument("--repo-url", default="https://github.com/Dunn21139/Solstice")
+    ap.add_argument("--slug", default="Dunn21139/Solstice")
+    ap.add_argument("--site-url", default="https://github.com/Dunn21139/Solstice")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 

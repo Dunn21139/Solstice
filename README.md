@@ -12,7 +12,7 @@ fork changes the product identity only.
 Please note that all issues related to version support will be deleted without
 response.
 
-Official website / download: `https://example.com/`
+Official website / download: <https://github.com/Dunn21139/Solstice>
 
 ## Attribution
 
@@ -23,16 +23,21 @@ the in-app Credits screen lists every upstream contributor.
 
 - Upstream project: https://github.com/opa334/Dopamine
 
-## Before you ship this
+## Repo wiring
 
-The fork ships with deliberate placeholders that must be pointed at your own
-infrastructure. See [REBRAND.md](REBRAND.md) for the list, or in short:
+The update feed, credits link, release page and package metadata point at this
+fork's own repository:
 
-| Placeholder | Where |
+| Setting | Value |
 | --- | --- |
-| `CHANGE-ME/Solstice` | `Application/Solstice/UI/DOUIManager.m`, `.../DOCreditsViewController.m`, `.../DOUpdateViewController.m`, `Packages/*/control` |
-| `https://example.com/` | this file, `Packages/*/control` |
-| `maintainer@example.com` | `Packages/*/control` |
+| Repository | `https://github.com/Dunn21139/Solstice` |
+| Release feed | `https://api.github.com/repos/Dunn21139/Solstice/releases` |
+| Package maintainer | `Dunn21139 <Dunn21139@users.noreply.github.com>` |
+
+The package `Homepage:` fields point at the repository **root** rather than a
+`tree/<branch>/...` deep link, so they cannot 404 whichever branch you push.
+See [REBRAND.md](REBRAND.md) for what still needs doing by hand (signing team,
+artwork, release checklist).
 
 ## Building
 

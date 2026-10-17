@@ -71,7 +71,7 @@
     static dispatch_once_t onceToken;
     static NSArray *releases;
     dispatch_once(&onceToken, ^{
-        NSURL *url = [NSURL URLWithString:@"https://api.github.com/repos/CHANGE-ME/Solstice/releases"];
+        NSURL *url = [NSURL URLWithString:@"https://api.github.com/repos/Dunn21139/Solstice/releases"];
         NSData *data = [NSData dataWithContentsOfURL:url];
         if (data) {
             NSError *error;

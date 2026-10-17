@@ -69,29 +69,38 @@ If you would rather **not** adopt an existing upstream Dopamine root, change
 `deep_rename.py --verify`. After that a pre-existing `jb-`/`.installed_dopamine`
 root is treated as a foreign jailbreak and a fresh root is created instead.
 
-## Required follow-up
+## Follow-up
 
-1. **Point the URLs at your own repo.** `CHANGE-ME/Solstice` appears in:
-   - `Application/Solstice/UI/DOUIManager.m` (release feed for update checks)
-   - `Application/Solstice/UI/Settings/DOCreditsViewController.m` (source link)
-   - `Application/Solstice/UI/Update/DOUpdateViewController.m` (release page)
-   - `Packages/basebin-link/control`, `Packages/libkrw-provider/control`
-2. **Set the website** (`https://example.com/`) in `README.md` and the
-   `Packages/*/control` `Homepage:` fields.
-3. **Replace the maintainer address** `maintainer@example.com` in
-   `Packages/*/control`.
-4. **Set your signing team** - `DEVELOPMENT_TEAM` is empty in
+**Repo wiring is done.** The update feed, credits link, release page and
+package metadata all point at `Dunn21139/Solstice`:
+
+| Setting | Value |
+| --- | --- |
+| Repository | `https://github.com/Dunn21139/Solstice` |
+| Release feed | `https://api.github.com/repos/Dunn21139/Solstice/releases` |
+| Package maintainer | `Dunn21139 <Dunn21139@users.noreply.github.com>` |
+
+`Packages/*/control` `Homepage:` fields point at the repository **root**, not a
+`tree/<branch>/...` deep link, so they stay valid whichever branch you push
+(the GitHub repo's default branch is `main`; this working tree is on `3.x`).
+
+Still to do:
+
+1. **Set your signing team** - `DEVELOPMENT_TEAM` is empty in
    `Application/Solstice.xcodeproj`; the Makefiles ad-hoc sign with `ldid`.
-5. Replace the generated icon if you want original artwork - the current mark
+2. Replace the generated icon if you want original artwork - the current mark
    is a placeholder "radiant sun" designed to be legible from 40px up.
-6. **Decide on apt continuity.** The rebranded packages have new IDs, so a
+3. **Decide on apt continuity.** The rebranded packages have new IDs, so a
    device that previously had upstream Dopamine packages would end up with
    both sets (and two libkrw plug-ins) installed. If you care about that,
    add `Replaces:`/`Conflicts:` on the old names in the `Packages/*/control`
    files. Nothing in this tree needs it today - there are no Solstice
    installs yet.
-7. **Rebuild everything after the internal rename.** The payload binary,
+4. **Rebuild everything after the internal rename.** The payload binary,
    basebin tarball and package artifacts all change name, so a stale
    `BaseBin/.build`, `BaseBin/basebin.tar` or `Packages/*/*.deb` from before
    the rename must not be reused: `make -C BaseBin clean && make -C BaseBin`,
    then `make -C Packages`, then `make -C Standalone`.
+5. **The update feed needs a published release.** `DOUIManager.m` reads
+   `.../releases` from the GitHub API, so update checks stay empty until you
+   publish a release whose tag matches the version the app reports.

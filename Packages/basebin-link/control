@@ -1,11 +1,11 @@
 Package: solstice-basebin-link
 Name: Solstice BaseBin Link
 Author: opa334 <opa334@protonmail.com> (original Dopamine)
-Maintainer: Solstice Project <maintainer@example.com>
+Maintainer: Dunn21139 <Dunn21139@users.noreply.github.com>
 Architecture: iphoneos-arm64
 Version: 1.0.0
 Provides: opainject
 Section: Libraries
 Priority: standard
-Homepage: https://github.com/CHANGE-ME/Solstice/tree/3.x/BaseBin
+Homepage: https://github.com/Dunn21139/Solstice
 Description: Symlinks to the Solstice base binaries (rebranded fork of Dopamine)
