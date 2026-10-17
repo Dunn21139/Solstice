@@ -1,0 +1,9 @@
+Package: libroot-dopamine
+Name: libroot (Solstice)
+Author: opa334 (original Dopamine)
+Maintainer: Solstice Project <maintainer@example.com>
+Architecture: iphoneos-arm64
+Version: 1.0.1
+Priority: optional
+Section: Development
+Description: libroot for Solstice (rebranded fork of Dopamine)

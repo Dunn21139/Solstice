@@ -1,0 +1,12 @@
+Package: libkrw0-dopamine
+Name: libkrw Plug-in (Solstice)
+Author: opa334 <opa334@protonmail.com> (original Dopamine)
+Maintainer: Solstice Project <maintainer@example.com>
+Architecture: iphoneos-arm64
+Version: 2.0.4
+Provides: libkrw0-plugin
+Depends: libiosexec1 (>= 1.3.1)
+Section: Libraries
+Priority: standard
+Homepage: https://github.com/CHANGE-ME/Solstice/tree/3.x/Packages/libkrw-provider
+Description: libkrw plug-in for Solstice (rebranded fork of Dopamine)
