@@ -38,11 +38,6 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/Dunn21139/Solstice"] options:@{} completionHandler:nil];
 }
 
-- (void)openDiscord
-{
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://discord.gg/jb"] options:@{} completionHandler:nil];
-}
-
 - (void)openLicense
 {
     [self.navigationController pushViewController:[[DOLicenseViewController alloc] init] animated:YES];

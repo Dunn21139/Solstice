@@ -32,22 +32,6 @@
 			<key>cellClass</key>
 			<string>DOButtonCell</string>
 			<key>title</key>
-			<string>Credits_Button_Discord</string>
-			<key>buttonHeight</key>
-			<integer>44</integer>
-			<key>key</key>
-			<string>discord</string>
-			<key>image</key>
-			<string>bubble.left.and.bubble.right.fill</string>
-			<key>action</key>
-			<string>openDiscord</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSStaticTextCell</string>
-			<key>cellClass</key>
-			<string>DOButtonCell</string>
-			<key>title</key>
 			<string>Credits_Button_License</string>
 			<key>buttonHeight</key>
 			<integer>44</integer>

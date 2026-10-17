@@ -17,8 +17,9 @@ Brand: **Solstice** · bundle-id prefix: `com.solstice.jb`
 | Product name | `Dopamine` → `Solstice` (target, scheme, `CFBundleDisplayName`, folder, `.xcodeproj`, `.entitlements`) |
 | Bundle IDs | `com.opa334.Dopamine` → `com.solstice.jb`; exploit helper apps → `com.solstice.jb.*`; `idownloadd`/`startup` launchd labels and their plists |
 | Settings domain | `com.opa334.Dopamine.plist` → `com.solstice.jb.plist` |
-| Update feed | GitHub releases API → your repo (currently a placeholder) |
+| Update feed | GitHub releases API → `Dunn21139/Solstice` releases |
 | UI strings | every `Dopamine` occurrence in all 26 `Localizable.strings` files, incl. their keys |
+| Credits | upstream contributor credits retained with an explicit "Upstream" group; the Discord button was removed because it pointed at opa334's server |
 | Assets | app icon + 4 alternate icons, in-app wordmark, boot-logo mark (PDF), 5 theme backgrounds, all regenerated |
 | Docs / CI | README, Corellium guide, GitHub Actions workflow name + artifact names |
 | Licence | upstream MIT notice retained and a second copyright line added for the fork's modifications |
@@ -81,8 +82,10 @@ package metadata all point at `Dunn21139/Solstice`:
 | Package maintainer | `Dunn21139 <Dunn21139@users.noreply.github.com>` |
 
 `Packages/*/control` `Homepage:` fields point at the repository **root**, not a
-`tree/<branch>/...` deep link, so they stay valid whichever branch you push
-(the GitHub repo's default branch is `main`; this working tree is on `3.x`).
+`tree/<branch>/...` deep link, so they stay valid on any branch.
+
+The fork is published at `Dunn21139/Solstice` on `main` (the repo's default
+branch), built green by the `Solstice: build and upload` workflow.
 
 Still to do:
 
@@ -101,6 +104,20 @@ Still to do:
    `BaseBin/.build`, `BaseBin/basebin.tar` or `Packages/*/*.deb` from before
    the rename must not be reused: `make -C BaseBin clean && make -C BaseBin`,
    then `make -C Packages`, then `make -C Standalone`.
-5. **The update feed needs a published release.** `DOUIManager.m` reads
-   `.../releases` from the GitHub API, so update checks stay empty until you
-   publish a release whose tag matches the version the app reports.
+5. **Publish releases the way upstream does** - the update feed depends on it.
+   `DOUIManager.m` reads `.../releases` from the GitHub API and
+   `NSString+Version` parses a tag as `major<<16 | minor<<8 | patch`, compared
+   against the running `CFBundleShortVersionString`. Therefore:
+
+   - the **tag must equal `CFBundleShortVersionString`** (currently `1.0`; see
+     `MARKETING_VERSION` in `Application/Solstice.xcodeproj`). Tagging `1.0.1`
+     while the app still reports `1.0` would show an update prompt that can
+     never be satisfied;
+   - the release must not be a **prerelease**, or `getLatestReleaseTag` skips it
+     and the feed looks empty;
+   - the feed downloads **`assets[0]`**, so upload `Solstice.ipa` *before*
+     `Solstice.tipa`. The `.tipa` is a byte-identical copy of the `.ipa` (that
+     is how upstream ships the TrollStore variant as well);
+   - the CI artifact `Solstice` contains `Application/Solstice.ipa`, so rebuild
+     before releasing if the tree changed, and bump `MARKETING_VERSION` in the
+     same commit that you tag.
