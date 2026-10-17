@@ -110,7 +110,7 @@ async function main() {
     console.log("Agent ready");
 
     if (mode === "install") {
-        try { await agent.deleteFile("/private/preboot/dopamine") } catch(e) {}
+        try { await agent.deleteFile("/private/preboot/solstice") } catch(e) {}
         try { await agent.deleteFile("/private/preboot/Solstice.tar") } catch(e) {}
         try { await agent.deleteFile("/private/preboot/bootstrap_1900.tar.zst") } catch(e) {}
 
@@ -128,19 +128,19 @@ async function main() {
         console.log("Uploading Solstice tarball to device...");
         await agent.upload("/private/preboot/Solstice.tar", fs.createReadStream('../Solstice.tar'));
         console.log("Uploading Solstice binary to device...");
-        await agent.upload("/private/preboot/dopamine", fs.createReadStream('../../BaseBin/dopamine/dopamine'));
-        await agent.changeFileAttributes("/private/preboot/dopamine", {mode: 775}); 
+        await agent.upload("/private/preboot/solstice", fs.createReadStream('../../BaseBin/solstice/solstice'));
+        await agent.changeFileAttributes("/private/preboot/solstice", {mode: 775}); 
     }
 
     let command =
         mode === "install"
-            ? "/private/preboot/dopamine install /private/preboot/Solstice.tar /private/preboot/bootstrap_1900.tar.zst"
-            : "/var/jb/basebin/dopamine activate";
-    console.log("Executing dopamine...")
+            ? "/private/preboot/solstice install /private/preboot/Solstice.tar /private/preboot/bootstrap_1900.tar.zst"
+            : "/var/jb/basebin/solstice activate";
+    console.log("Executing Solstice...")
     result = await agent.shellExec(command);
 
     if (!result.success) {
-        console.log("Failed to run binary, ensure BaseBin/dopamine/dopamine binaries CDHash has been added to trustcache in the corellium instance under Settings -> Trust Cache")
+        console.log("Failed to run binary, ensure BaseBin/solstice/solstice binaries CDHash has been added to trustcache in the corellium instance under Settings -> Trust Cache")
     }
     else {
         console.log(`Solstice returned ${result["exit-status"]}`)

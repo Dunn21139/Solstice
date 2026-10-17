@@ -181,12 +181,12 @@ int main(int argc, char* argv[])
 				return 5;
 			}
 
-			LSApplicationProxy *dopamineAppProxy = [LSApplicationProxy applicationProxyForIdentifier:@"com.solstice.jb"];
-			if (!dopamineAppProxy) {
+			LSApplicationProxy *solsticeAppProxy = [LSApplicationProxy applicationProxyForIdentifier:@"com.solstice.jb"];
+			if (!solsticeAppProxy) {
 				printf("Unable to locate newly installed Solstice build.\n");
 				return 6;
 			}
-			updateFile = strdup([dopamineAppProxy.bundleURL.path stringByAppendingPathComponent:@"basebin.tar"].fileSystemRepresentation);
+			updateFile = strdup([solsticeAppProxy.bundleURL.path stringByAppendingPathComponent:@"basebin.tar"].fileSystemRepresentation);
 			// Fall through to basebin installation
 		}
 		else if (!strcmp(updateType, "tarball")) {

@@ -367,7 +367,7 @@ void activate_environment(bool applyProtection, bool prepareBootstrap)
 	}
 }
 
-void install_dopamine(void)
+void install_solstice(void)
 {
 	activate_environment(false, true);
 
@@ -383,16 +383,16 @@ void install_dopamine(void)
 	printf("Solstice installed!\n");
 }
 
-void install_dopamine_from_tarball(const char *tarballPath, const char *bootstrapPath)
+void install_solstice_from_tarball(const char *tarballPath, const char *bootstrapPath)
 {
-	[[NSFileManager defaultManager] removeItemAtPath:@"/private/preboot/dopamine_tmp" error:nil];
-	[[NSFileManager defaultManager] createDirectoryAtPath:@"/private/preboot/dopamine_tmp" withIntermediateDirectories:NO attributes:nil error:nil];
-	libarchive_unarchive(tarballPath, "/private/preboot/dopamine_tmp");
+	[[NSFileManager defaultManager] removeItemAtPath:@"/private/preboot/solstice_tmp" error:nil];
+	[[NSFileManager defaultManager] createDirectoryAtPath:@"/private/preboot/solstice_tmp" withIntermediateDirectories:NO attributes:nil error:nil];
+	libarchive_unarchive(tarballPath, "/private/preboot/solstice_tmp");
 	if (bootstrapPath) {
-		[[NSFileManager defaultManager] copyItemAtPath:[NSString stringWithUTF8String:bootstrapPath] toPath:@"/private/preboot/dopamine_tmp/bootstrap_1900.tar.zst" error:nil];
+		[[NSFileManager defaultManager] copyItemAtPath:[NSString stringWithUTF8String:bootstrapPath] toPath:@"/private/preboot/solstice_tmp/bootstrap_1900.tar.zst" error:nil];
 	}
 
-	const char *newPath = "/private/preboot/dopamine_tmp/dopamine";
+	const char *newPath = "/private/preboot/solstice_tmp/solstice";
 	extern char **environ;
 	char *argv[] = (char *[]){
 		(char *)newPath,
@@ -402,7 +402,7 @@ void install_dopamine_from_tarball(const char *tarballPath, const char *bootstra
 	execve(newPath, argv, environ);
 }
 
-void activate_dopamine(void)
+void activate_solstice(void)
 {
 	activate_environment(true, false);
 	activate_basebin(JBROOT_PATH(@"/basebin"));
@@ -424,14 +424,14 @@ int main(int argc, char* argv[])
 		if (!strcmp(argv[1], "install")) {
 			if (argc >= 3) {
 				const char *bootstrapPath = argc >= 4 ? argv[3] : NULL;
-				install_dopamine_from_tarball(argv[2], bootstrapPath);
+				install_solstice_from_tarball(argv[2], bootstrapPath);
 			}
 			else {
-				install_dopamine();
+				install_solstice();
 			}
 		}
 		else if (!strcmp(argv[1], "activate")) {
-			activate_dopamine();
+			activate_solstice();
 		}
 	}
 

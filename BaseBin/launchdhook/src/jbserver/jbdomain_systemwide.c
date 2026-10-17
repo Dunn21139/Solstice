@@ -69,7 +69,7 @@ bool systemwide_domain_allowed(audit_token_t clientToken)
 		}
 
 		// We still want it to be accessible by Solstice itself though
-		if (is_dopamine_app(procPath)) return true;
+		if (is_solstice_app(procPath)) return true;
 
 		return false;
 	}
@@ -290,7 +290,7 @@ int systemwide_process_checkin(audit_token_t *processToken, char **rootPathOut, 
 	}
 	// For the Solstice app itself we want to give it a saved uid/gid of 0, unsandbox it and give it CS_PLATFORM_BINARY
 	// This is so that the buttons inside it can work when jailbroken, even if the app was not installed by TrollStore
-	else if (is_dopamine_app(procPath)) {
+	else if (is_solstice_app(procPath)) {
 		// platformize
 		proc_csflags_set(proc, CS_PLATFORM_BINARY);
 	}

@@ -107,7 +107,7 @@ __attribute__((constructor)) static void initializer(void)
 	}
 
 	bool firstLoad = false;
-	if (getenv("DOPAMINE_INITIALIZED") != 0) {
+	if (getenv("SOLSTICE_INITIALIZED") != 0) {
 		// If Solstice was initialized before, we assume we're coming from a userspace reboot
 
 		// Stock bug: These prefs wipe themselves after a reboot (they contain a boot time and this is matched when they're loaded)
@@ -165,7 +165,7 @@ __attribute__((constructor)) static void initializer(void)
 	sysctlbyname_orig = sysctlbyname;
 	litehook_rebind_symbol(LITEHOOK_REBIND_GLOBAL, (void *)sysctlbyname, (void *)sysctlbyname_hook, NULL);
 
-	if (getenv("DOPAMINE_IS_HIDDEN") != 0) {
+	if (getenv("SOLSTICE_IS_HIDDEN") != 0) {
 		// If the jailbreak is currently hidden, fakelib had to be mounted again before the userspace reboot
 		// Now that the userspace reboot is over, we can unmount it again
 
@@ -179,7 +179,7 @@ __attribute__((constructor)) static void initializer(void)
 		systemwide_domain_set_enabled(false);
 
 		// No need to keep this around
-		unsetenv("DOPAMINE_IS_HIDDEN");
+		unsetenv("SOLSTICE_IS_HIDDEN");
 	}
 
 	// This will ensure launchdhook is always reinjected after userspace reboots
@@ -187,7 +187,7 @@ __attribute__((constructor)) static void initializer(void)
 	setenv("DYLD_INSERT_LIBRARIES", JBROOT_PATH("/basebin/launchdhook.dylib"), 1);
 
 	// Mark Solstice as having been initialized before
-	setenv("DOPAMINE_INITIALIZED", "1", 1);
+	setenv("SOLSTICE_INITIALIZED", "1", 1);
 
 	// Set an identifier that uniquely identifies this userspace boot
 	// Part of rootless v2 spec

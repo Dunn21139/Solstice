@@ -45,7 +45,7 @@ void ensure_fakelib_mounted(void)
 
 		// Note down that the jailbreak was hidden
 		// So that after the userspace reboot, we can unmount fakelib again
-		setenv("DOPAMINE_IS_HIDDEN", "1", true);
+		setenv("SOLSTICE_IS_HIDDEN", "1", true);
 	}
 }
 

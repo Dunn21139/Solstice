@@ -50,11 +50,11 @@ enum {
 
 // Domain: Solstice
 // Reachable exclusively from Solstice app
-#define JBS_DOMAIN_DOPAMINE 5
+#define JBS_DOMAIN_SOLSTICE 5
 enum {
-    JBS_DOPAMINE_IS_JAILBROKEN = 1,
-    JBS_DOPAMINE_GET_ROOT,
-    JBS_DOPAMINE_DROP_ROOT,
+    JBS_SOLSTICE_IS_JAILBROKEN = 1,
+    JBS_SOLSTICE_GET_ROOT,
+    JBS_SOLSTICE_DROP_ROOT,
 };
 
 #define JBS_BOOMERANG_DONE 42

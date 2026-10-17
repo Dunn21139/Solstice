@@ -208,7 +208,7 @@ bool should_enable_tweaks(void)
 		}
 	}
 
-	if (jbclient_dopamine_is_jailbroken(NULL)) {
+	if (jbclient_solstice_is_jailbroken(NULL)) {
 		// Probe whether we are the Solstice app
 		// Only the Solstice app is allowed to contact this domain
 		// In this case we want to disable tweak injection to prevent jailbreak detections etc messing with the app functionality
@@ -330,10 +330,10 @@ int parse_dyldhook_jbinfo(char **jbRootPathOut, char **bootUUIDOut, char **sandb
 	const struct mach_header_64 *dyldHeader = get_dyld_mach_header();
 	if (!dyldHeader) return -1;
 
-	// Check if dyld LC_UUID contains dopamine magic
+	// Check if dyld LC_UUID contains Solstice magic
 	uuid_t dyldUUID;
 	if (!_dyld_get_image_uuid((const struct mach_header *)dyldHeader, dyldUUID)) return -2;
-	if (!string_has_prefix((char *)dyldUUID, "DOPA")) return -3;
+	if (!string_has_prefix((char *)dyldUUID, "SOLS")) return -3;
 
 	// If so, get __jbinfo section
 	size_t jbInfoSize = 0;

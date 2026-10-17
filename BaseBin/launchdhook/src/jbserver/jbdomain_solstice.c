@@ -41,20 +41,20 @@ static char *read_file_to_string(const char *path) {
 }
 
 
-bool dopamine_domain_allowed(audit_token_t clientToken)
+bool solstice_domain_allowed(audit_token_t clientToken)
 {
 	char path[PATH_MAX];
 	if (proc_pidpath_audittoken(&clientToken, path, PATH_MAX) <= 0) return false;
-	return is_dopamine_app(path);
+	return is_solstice_app(path);
 }
 
-bool dopamine_is_jailbroken(char **outVersion)
+bool solstice_is_jailbroken(char **outVersion)
 {
 	*outVersion = read_file_to_string(JBROOT_PATH("/basebin/.version"));
 	return true;
 }
 
-int dopamine_get_root(audit_token_t *processToken)
+int solstice_get_root(audit_token_t *processToken)
 {
 	pid_t pid = audit_token_to_pid(*processToken);
 	uint64_t proc = proc_find(pid);
@@ -80,7 +80,7 @@ int dopamine_get_root(audit_token_t *processToken)
 	return 1;
 }
 
-int dopamine_drop_root(audit_token_t *processToken)
+int solstice_drop_root(audit_token_t *processToken)
 {
 	pid_t pid = audit_token_to_pid(*processToken);
 	uint64_t proc = proc_find(pid);
@@ -106,28 +106,28 @@ int dopamine_drop_root(audit_token_t *processToken)
 	return 1;
 }
 
-struct jbserver_domain gDopamineDomain = {
-	.permissionHandler = dopamine_domain_allowed,
+struct jbserver_domain gSolsticeDomain = {
+	.permissionHandler = solstice_domain_allowed,
 	.actions = {
-		// JBS_DOPAMINE_IS_JAILBROKEN
+		// JBS_SOLSTICE_IS_JAILBROKEN
 		{
-			.handler = dopamine_is_jailbroken,
+			.handler = solstice_is_jailbroken,
 			.args = (jbserver_arg[]){
 				{ .name = "version", .type = JBS_TYPE_STRING, .out = true },
 				{ 0 },
 			},
 		},
-		// JBS_DOPAMINE_GET_ROOT
+		// JBS_SOLSTICE_GET_ROOT
 		{
-			.handler = dopamine_get_root,
+			.handler = solstice_get_root,
 			.args = (jbserver_arg[]){
 				{ .name = "caller-token", .type = JBS_TYPE_CALLER_TOKEN, .out = false },
 				{ 0 },
 			},
 		},
-		// JBS_DOPAMINE_DROP_ROOT
+		// JBS_SOLSTICE_DROP_ROOT
 		{
-			.handler = dopamine_drop_root,
+			.handler = solstice_drop_root,
 			.args = (jbserver_arg[]){
 				{ .name = "caller-token", .type = JBS_TYPE_CALLER_TOKEN, .out = false },
 				{ 0 },

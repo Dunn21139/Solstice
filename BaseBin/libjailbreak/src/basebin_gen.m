@@ -65,9 +65,9 @@ int apply_dyld_patch(NSString *dyldPath, const char *newUUIDPrefix)
 	macho_enumerate_load_commands(dyldMacho, ^(struct load_command loadCommand, uint64_t offset, void *cmd, bool *stop) {
 		if (loadCommand.cmd == LC_UUID) {
             // The new UUID will look like this:
-            // DOPA<dopamine version>\0<rest of original UUID>
+            // SOLS<solstice version>\0<rest of original UUID>
             // This way we ensure:
-            // - The version it was patched on and it being patched by Dopamine is identifiable later
+            // - The version it was patched on and it being patched by Solstice is identifiable later
             // - The UUID is still unique based on the source dyld that was patched
 
             size_t newUUIDPrefixLen = strlen(newUUIDPrefix) + 1;
@@ -122,8 +122,8 @@ int basebin_generate_internal(NSString *originUsrLibPath, NSString *basebinPath,
 	NSString *targetDyldPath         = [targetBasebinPath stringByAppendingPathComponent:@"gen/dyld"];
 	NSString *targetSystemhookPath   = [targetBasebinPath stringByAppendingPathComponent:@"systemhook.dylib"];
 	
-	NSString *dopamineVersion = [NSString stringWithContentsOfFile:versionPath encoding:NSUTF8StringEncoding error:nil];
-	if (!dopamineVersion) return 1;
+	NSString *solsticeVersion = [NSString stringWithContentsOfFile:versionPath encoding:NSUTF8StringEncoding error:nil];
+	if (!solsticeVersion) return 1;
 
 	[[NSFileManager defaultManager] createDirectoryAtPath:genPath withIntermediateDirectories:YES attributes:nil error:nil];
 
@@ -148,7 +148,7 @@ int basebin_generate_internal(NSString *originUsrLibPath, NSString *basebinPath,
 
 	carbonCopy(dyldOrigPath, dyldInflightPath);
 
-	NSString *dyldUUIDPrefix = [@"DOPA" stringByAppendingString:dopamineVersion];
+	NSString *dyldUUIDPrefix = [@"SOLS" stringByAppendingString:solsticeVersion];
 	if (apply_dyld_patch(dyldInflightPath, dyldUUIDPrefix.UTF8String) != 0) return 2;
 	if (merge_dyldhook(dyldInflightPath, dyldhookMergeDylibPath, dyldInflightPath) != 0) return 3;
 	if (resign_file(dyldInflightPath, @"com.apple.dyld", YES) != 0) return 4;

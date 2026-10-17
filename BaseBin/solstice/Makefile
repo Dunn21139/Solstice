@@ -1,4 +1,4 @@
-TARGET = dopamine
+TARGET = solstice
 
 CC = clang
 

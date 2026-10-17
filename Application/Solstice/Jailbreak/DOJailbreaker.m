@@ -148,7 +148,7 @@ typedef NS_ENUM(NSInteger, JBErrorCode) {
     jbinfo_initialize_hardcoded_offsets();
 
     // Stash app identifier into jailbreakInfo
-    // This will later allow launchdhook to figure out which process is the dopamine app
+    // This will later allow launchdhook to figure out which process is the Solstice app
     if ([NSBundle mainBundle].bundleIdentifier) {
         gSystemInfo.jailbreakInfo.appIdentifier = strdup([NSBundle mainBundle].bundleIdentifier.UTF8String);
     }
@@ -465,22 +465,22 @@ void *boomerang_server(struct boomerang_info *info)
 
 - (NSError *)ensureNoDuplicateApps
 {
-    NSMutableSet *dopamineInstalledAppIds = [NSMutableSet new];
+    NSMutableSet *solsticeInstalledAppIds = [NSMutableSet new];
     NSMutableSet *userInstalledAppIds = [NSMutableSet new];
     
-    NSString *dopamineAppsPath = JBROOT_PATH(@"/Applications");
+    NSString *solsticeAppsPath = JBROOT_PATH(@"/Applications");
     NSString *userAppsPath = @"/var/containers/Bundle/Application";
     
-    for (NSString *dopamineAppName in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dopamineAppsPath error:nil]) {
-        NSString *infoPlistPath = [[dopamineAppsPath stringByAppendingPathComponent:dopamineAppName] stringByAppendingPathComponent:@"Info.plist"];
+    for (NSString *solsticeAppName in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:solsticeAppsPath error:nil]) {
+        NSString *infoPlistPath = [[solsticeAppsPath stringByAppendingPathComponent:solsticeAppName] stringByAppendingPathComponent:@"Info.plist"];
         NSDictionary *infoDictionary = [NSDictionary dictionaryWithContentsOfFile:infoPlistPath];
         NSString *appId = infoDictionary[@"CFBundleIdentifier"];
         if (appId) {
-            if (![dopamineInstalledAppIds containsObject:appId]) {
-                [dopamineInstalledAppIds addObject:appId];
+            if (![solsticeInstalledAppIds containsObject:appId]) {
+                [solsticeInstalledAppIds addObject:appId];
             }
             else {
-                return [NSError errorWithDomain:JBErrorDomain code:JBErrorCodeFailedDuplicateApps userInfo:@{ NSLocalizedDescriptionKey : [NSString stringWithFormat:DOLocalizedString(@"Duplicate_Apps_Error_Solstice_App"), appId, dopamineAppsPath]}];
+                return [NSError errorWithDomain:JBErrorDomain code:JBErrorCodeFailedDuplicateApps userInfo:@{ NSLocalizedDescriptionKey : [NSString stringWithFormat:DOLocalizedString(@"Duplicate_Apps_Error_Solstice_App"), appId, solsticeAppsPath]}];
             }
         }
     }
@@ -500,7 +500,7 @@ void *boomerang_server(struct boomerang_info *info)
         }
     }
     
-    NSMutableSet *duplicateApps = dopamineInstalledAppIds.mutableCopy;
+    NSMutableSet *duplicateApps = solsticeInstalledAppIds.mutableCopy;
     [duplicateApps intersectSet:userInstalledAppIds];
     if (duplicateApps.count) {
         NSMutableString *duplicateAppsString = [NSMutableString new];
@@ -512,15 +512,15 @@ void *boomerang_server(struct boomerang_info *info)
             [duplicateAppsString appendString:duplicateApp];
         }
         [duplicateAppsString appendString:@"]"];
-        return [NSError errorWithDomain:JBErrorDomain code:JBErrorCodeFailedDuplicateApps userInfo:@{ NSLocalizedDescriptionKey : [NSString stringWithFormat:DOLocalizedString(@"Duplicate_Apps_Error_User_App"), duplicateAppsString, dopamineAppsPath]}];
+        return [NSError errorWithDomain:JBErrorDomain code:JBErrorCodeFailedDuplicateApps userInfo:@{ NSLocalizedDescriptionKey : [NSString stringWithFormat:DOLocalizedString(@"Duplicate_Apps_Error_User_App"), duplicateAppsString, solsticeAppsPath]}];
     }
     
-    for (NSString *dopamineAppId in dopamineInstalledAppIds) {
-        LSApplicationProxy *appProxy = [LSApplicationProxy applicationProxyForIdentifier:dopamineAppId];
+    for (NSString *solsticeAppId in solsticeInstalledAppIds) {
+        LSApplicationProxy *appProxy = [LSApplicationProxy applicationProxyForIdentifier:solsticeAppId];
         if (appProxy.installed) {
             NSString *appProxyPath = [[appProxy.bundleURL.path stringByResolvingSymlinksInPath] stringByStandardizingPath];
-            if (![appProxyPath hasPrefix:dopamineAppsPath]) {
-                return [NSError errorWithDomain:JBErrorDomain code:JBErrorCodeFailedDuplicateApps userInfo:@{ NSLocalizedDescriptionKey : [NSString stringWithFormat:DOLocalizedString(@"Duplicate_Apps_Error_Icon_Cache"), dopamineAppId, dopamineAppsPath, appProxy.bundleURL.path]}];
+            if (![appProxyPath hasPrefix:solsticeAppsPath]) {
+                return [NSError errorWithDomain:JBErrorDomain code:JBErrorCodeFailedDuplicateApps userInfo:@{ NSLocalizedDescriptionKey : [NSString stringWithFormat:DOLocalizedString(@"Duplicate_Apps_Error_Icon_Cache"), solsticeAppId, solsticeAppsPath, appProxy.bundleURL.path]}];
             }
         }
     }

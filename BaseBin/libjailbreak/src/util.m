@@ -3,7 +3,7 @@
 #import "util.h"
 #import <sys/stat.h>
 
-bool is_dopamine_app(const char *pathC)
+bool is_solstice_app(const char *pathC)
 {
 	if (!jbinfo(appIdentifier)) return false;
 

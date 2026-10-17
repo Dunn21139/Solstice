@@ -104,9 +104,9 @@ extern char **environ;
         
         NSString *randomizedJailbreakPath;
         
-        // First attempt at finding jailbreak root, look for Dopamine 2.x path
+        // First attempt at finding jailbreak root, look for an existing Solstice root
         for (NSString *subItem in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:activePrebootPath error:nil]) {
-            if (subItem.length == 15 && [subItem hasPrefix:@"dopamine-"]) {
+            if (subItem.length == 15 && [subItem hasPrefix:@"solstice-"]) {
                 randomizedJailbreakPath = [activePrebootPath stringByAppendingPathComponent:subItem];
                 break;
             }
@@ -115,7 +115,7 @@ extern char **environ;
         if (!randomizedJailbreakPath) {
             // Second attempt at finding jailbreak root, look for the Dopamine 1.x path, but as other jailbreaks use it too, make sure it really came from Dopamine
             // Some other jailbreaks also commit the sin of creating .installed_dopamine, for these we try to filter them out by checking for their installed_ file
-            // If we find this and are sure it's from Dopamine 1.x, rename it so all Dopamine 2.x users will have the same path
+            // If we find this and are sure it's from Dopamine 1.x, rename it so all Solstice users will have the same path
             for (NSString *subItem in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:activePrebootPath error:nil]) {
                 if (subItem.length == 9 && [subItem hasPrefix:@"jb-"]) {
                     NSString *candidateLegacyPath = [activePrebootPath stringByAppendingPathComponent:subItem];
@@ -157,7 +157,7 @@ extern char **environ;
 
     [self locateJailbreakRoot];
 
-    // DOPACLEAN logic to move a corrupted dopamine directory to a different path to at least make jailbreaking work again
+    // DOPACLEAN logic to move a corrupted jailbreak root directory to a different path to at least make jailbreaking work again
     // if (gSystemInfo.jailbreakInfo.rootPath) {
     //     NSString *randomizedJailbreakPath = [NSString stringWithUTF8String:gSystemInfo.jailbreakInfo.rootPath].stringByDeletingLastPathComponent;
     //     NSString *characterSet = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -191,7 +191,7 @@ extern char **environ;
             [randomString appendFormat:@"%C", randomCharacter];
         }
         
-        NSString *randomJailbreakFolderName = [NSString stringWithFormat:@"dopamine-%@", randomString];
+        NSString *randomJailbreakFolderName = [NSString stringWithFormat:@"solstice-%@", randomString];
         NSString *randomizedJailbreakPath = [activePrebootPath stringByAppendingPathComponent:randomJailbreakFolderName];
         NSString *jailbreakRootPath = [randomizedJailbreakPath stringByAppendingPathComponent:@"procursus"];
         
@@ -279,7 +279,7 @@ extern char **environ;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         char *jbVersionC = NULL;
-        _isJailbroken = jbclient_dopamine_is_jailbroken(&jbVersionC);
+        _isJailbroken = jbclient_solstice_is_jailbroken(&jbVersionC);
         if (jbVersionC) {
             _jailbrokenVersion = [NSString stringWithUTF8String:jbVersionC];
             free(jbVersionC);
@@ -359,9 +359,9 @@ extern char **environ;
     }
 
     if (self.isJailbroken) {
-        if (jbclient_dopamine_get_root() == 0) {
+        if (jbclient_solstice_get_root() == 0) {
             rootBlock();
-            jbclient_dopamine_drop_root();
+            jbclient_solstice_drop_root();
         }
     }
 }

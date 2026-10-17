@@ -17,15 +17,15 @@
 #import <sys/stat.h>
 #import "NSString+Version.h"
 
-#define LIBKRW_DOPAMINE_BUNDLED_VERSION @"2.0.3"
-#define LIBROOT_DOPAMINE_BUNDLED_VERSION @"1.0.1"
+#define LIBKRW_SOLSTICE_BUNDLED_VERSION @"2.0.3"
+#define LIBROOT_SOLSTICE_BUNDLED_VERSION @"1.0.1"
 #define BASEBIN_LINK_BUNDLED_VERSION @"1.0.0"
 #define LAUNCHCTL_BUNDLED_VERSION @"1:1.2.0"
 
 static NSDictionary *gBundledPackages = @{
-    @"libkrw0-dopamine" : LIBKRW_DOPAMINE_BUNDLED_VERSION,
-    @"libroot-dopamine" : LIBROOT_DOPAMINE_BUNDLED_VERSION,
-    @"dopamine-basebin-link" : BASEBIN_LINK_BUNDLED_VERSION,
+    @"libkrw0-solstice" : LIBKRW_SOLSTICE_BUNDLED_VERSION,
+    @"libroot-solstice" : LIBROOT_SOLSTICE_BUNDLED_VERSION,
+    @"solstice-basebin-link" : BASEBIN_LINK_BUNDLED_VERSION,
     @"launchctl" : LAUNCHCTL_BUNDLED_VERSION,
 };
 
@@ -146,8 +146,8 @@ NSString *const bootstrapErrorDomain = @"BootstrapErrorDomain";
     // /private
     // /private/preboot
     // /private/preboot/UUID
-    // /private/preboot/UUID/dopamine-<UUID>
-    // /private/preboot/UUID/dopamine-<UUID>/procursus
+    // /private/preboot/UUID/solstice-<UUID>
+    // /private/preboot/UUID/solstice-<UUID>/procursus
 
     NSString *tmpPath = JBROOT_PATH(@"/");
     while (![tmpPath isEqualToString:@"/"]) {
@@ -545,9 +545,9 @@ NSString *const bootstrapErrorDomain = @"BootstrapErrorDomain";
         if (error) return error;
     }
     
-    BOOL shouldInstallLibroot = [self shouldInstallPackage:@"libroot-dopamine"];
-    BOOL shouldInstallLibkrw = [self shouldInstallPackage:@"libkrw0-dopamine"];
-    BOOL shouldInstallBasebinLink = [self shouldInstallPackage:@"dopamine-basebin-link"];
+    BOOL shouldInstallLibroot = [self shouldInstallPackage:@"libroot-solstice"];
+    BOOL shouldInstallLibkrw = [self shouldInstallPackage:@"libkrw0-solstice"];
+    BOOL shouldInstallBasebinLink = [self shouldInstallPackage:@"solstice-basebin-link"];
     BOOL shouldInstallLaunchctl = NO;
     if (__builtin_available(iOS 19.0, *)) {
         shouldInstallLaunchctl = [self shouldInstallPackage:@"launchctl"];
@@ -569,7 +569,7 @@ NSString *const bootstrapErrorDomain = @"BootstrapErrorDomain";
         }
         
         if (shouldInstallLibkrw) {
-            NSString *libkrwPath = [[NSBundle mainBundle].bundlePath stringByAppendingPathComponent:@"libkrw-dopamine.deb"];
+            NSString *libkrwPath = [[NSBundle mainBundle].bundlePath stringByAppendingPathComponent:@"libkrw-solstice.deb"];
             int r = [self installPackage:libkrwPath];
             if (r != 0) return [NSError errorWithDomain:bootstrapErrorDomain code:BootstrapErrorCodeFailedFinalising userInfo:@{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Failed to install the libkrw plugin: %d\n", r]}];
         }
