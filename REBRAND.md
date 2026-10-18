@@ -109,6 +109,12 @@ Still to do:
    `NSString+Version` parses a tag as `major<<16 | minor<<8 | patch`, compared
    against the running `CFBundleShortVersionString`. Therefore:
 
+   - the version lives in **two places that must match**, and both have to move
+     in the same commit: `MARKETING_VERSION` on the app target in
+     `Application/Solstice.xcodeproj`, and `BaseBin/_external/basebin/.version`
+     (the basebin's own version, written into the jailbreak root on device).
+     Solstice stopped following upstream's numbering at `1.0`, which is based on
+     Dopamine 3.0.11;
    - the **tag must equal `CFBundleShortVersionString`** (currently `1.0`; see
      `MARKETING_VERSION` in `Application/Solstice.xcodeproj`). Tagging `1.0.1`
      while the app still reports `1.0` would show an update prompt that can

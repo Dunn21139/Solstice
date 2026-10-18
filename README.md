@@ -23,6 +23,16 @@ the in-app Credits screen lists every upstream contributor.
 
 - Upstream project: https://github.com/opa334/Dopamine
 
+## Versioning
+
+Solstice's version number is its own; the first release, **1.0**, is based on
+upstream **Dopamine 3.0.11**. The number lives in two places that must always
+move together - `MARKETING_VERSION` on the app target in
+`Application/Solstice.xcodeproj` and `BaseBin/_external/basebin/.version`, which
+is the basebin's own version written into the jailbreak root - and the update
+feed requires the release tag to equal it. See [REBRAND.md](REBRAND.md) for the
+release checklist.
+
 ## Repo wiring
 
 The update feed, credits link, release page and package metadata point at this
