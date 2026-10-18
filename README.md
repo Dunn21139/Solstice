@@ -23,6 +23,57 @@ the in-app Credits screen lists every upstream contributor.
 
 - Upstream project: https://github.com/opa334/Dopamine
 
+## Installing
+
+Download the `.tipa`/`.ipa` from the
+[releases page](https://github.com/Dunn21139/Solstice/releases). Which route you
+need depends on your iOS version.
+
+### TrollStore - iOS 15.0 to 16.6.1, 16.7 RC (20H18), 17.0
+
+This is the route to prefer. The install is permanent (no re-signing), and
+TrollStore preserves the entitlements the app is ad-hoc signed with, which is
+why the release is signed with `ldid` rather than shipped unsigned.
+
+Install [TrollStore](https://ios.cfw.guide/installing-trollstore) first, then
+open this **on the device**:
+
+    apple-magnifier://install?url=https://github.com/Dunn21139/Solstice/releases/latest/download/Solstice.tipa
+
+That is TrollStore's install URL scheme (it replaces `apple-magnifier`), and it
+offers to install straight from the release. Alternatively, save the `.tipa` to
+Files and open it via the `+` button in TrollStore's Apps tab.
+
+### Sideloading - any supported version
+
+Use this for 16.7 through 16.7.16, 17.0.1 through 18.7.1 and 26.0 to 26.0.1,
+where TrollStore cannot work because the CoreTrust bug it relies on was fixed in
+17.0.1. Install the `.ipa` with
+[PlumeImpactor](https://github.com/khcrysalis/PlumeImpactor),
+[AltStore](https://altstore.io) or Sideloadly, signed in with your own Apple
+Account - the tool re-signs the app, so the bundled entitlements are dropped and
+replaced.
+
+1. Plug the device into a computer and install the `.ipa` with one of those tools.
+2. Trust the profile: Settings -> General -> VPN & Device Management.
+3. On iOS 16 and later, also enable Settings -> Privacy & Security -> Developer
+   Mode.
+4. Re-sign every 7 days - a free certificate expires after a week, and a
+   semi-untethered jailbreak has to be re-applied from the app after any reboot.
+
+`ios.cfw.guide` documents the surrounding process in detail (installing
+TrollStore, the exact per-version steps, and the caveat that a device still on
+the iOS build it shipped with has to use the TrollStore route); substitute this
+fork's release for the download step in
+[those guides](https://ios.cfw.guide/installing-dopamine/).
+
+### After installing
+
+Open Solstice from the home screen and tap **Jailbreak**. Sileo appears once the
+jailbreak has taken effect. From then on, updates are applied in-app: the app
+reads the release feed, downloads the asset and hands it to `jbctl update tipa`,
+so a jailbroken device never needs to be reinstalled by hand.
+
 ## Versioning
 
 Solstice's version number is its own; the first release, **1.0**, is based on
