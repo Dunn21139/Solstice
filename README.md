@@ -1,7 +1,19 @@
 # Solstice
 
-A rootless semi-untethered jailbreak for iOS 15.0 - 17.3.1 (arm64e),
-iOS 15.0 - 18.7.1 / 26.0 - 26.0.1 (A12/A13) and iOS 15.0 - 18.7.1 (arm64).
+A rootless semi-untethered jailbreak. These are upstream's support boundaries,
+which this fork inherits unchanged:
+
+| iOS / iPadOS | Devices |
+| --- | --- |
+| 15.0 - 17.3.1 | every supported device (A8 - A17, M1 - M2) |
+| 17.4 - 18.7.1 | A13 and earlier only |
+| 26.0 - 26.0.1 | A13 and earlier only |
+
+Nothing above 26.0.1 is supported, so do not update past it. For the exact
+device-by-device matrix see
+[AppleDB](https://appledb.dev/device-selection/), the same reference upstream
+points at. Note that the support tables on `ellekit.space` describe Dopamine,
+not this fork, but the boundaries are identical.
 
 Solstice is a **rebranded fork of [Dopamine](https://github.com/opa334/Dopamine)**.
 Every piece of jailbreak technology in this project - the kernel exploits, the
